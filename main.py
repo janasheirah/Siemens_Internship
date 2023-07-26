@@ -1,6 +1,8 @@
 import random
 import time
 
+# This is a simulation of the client-server interaction
+
 
 class Client:
     def __init__(self, state, client_id):
@@ -19,7 +21,7 @@ class Client:
         elif self.state == 5:
             step = -1  # goes to state 4 only
         elif response_time <= server.response_time:
-            # before time out -> can move forward or backward
+            # before time out -> has the option to move forward or backward
             inp = input("Do you want to move forward (F) or backward (B)? ")
             if inp.lower() == "f":
                 step = 1
@@ -45,7 +47,7 @@ class Server:
 
     @staticmethod
     def send_reply():
-        time.sleep(random.randint(0, 5))  # simulates the delay in server response from 0 to 5 seconds
+        time.sleep(random.randint(0, 5))  # simulates the delay in server response from 0 to 5 seconds - random
         return "Accept message"
 
 
@@ -53,6 +55,7 @@ def state_machine_use(num_clients, response_time):
     server = Server(num_clients, response_time)
     clients = [Client(state, client_id) for _ in range(num_clients)
                for state in range(6) for client_id in range(num_clients)]  # list of client objects
+    # clients created with states from 0->5 to generate all possible combinations
 
     for client in clients:
         client.send_message(server)
